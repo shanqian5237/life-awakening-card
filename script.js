@@ -1,8 +1,10 @@
 const CARD_TOTAL = 54;
 const CARD_FOLDER = "牌样";
 const CARD_BACK = `${CARD_FOLDER}/cardback.jpg`;
-const ACCESS_CODE = "CQ2026";
 const ACCESS_STORAGE_KEY = "evergreen-life-card-access";
+const SUPABASE_URL = "https://dxasdpflxkjljkssuyhi.supabase.co";
+const SUPABASE_ANON_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR4YXNkcGZseGtqbGprc3N1eWhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxMjgzNDQsImV4cCI6MjA5NTcwNDM0NH0.ddFtv4RAZ9fSU7R4nrSewyeSw4qPdbpFo_R4TK7wCb0";
 
 const cardData = [
   { keyword: "母亲不是牺牲", guidance: "成为母亲不是失去自我，而是进入生命新的成长阶段。很多女性会把“母亲”理解成牺牲，这张卡是在提醒：母亲也可以继续发光。" },
@@ -99,22 +101,70 @@ function hasAccess() {
   }
 }
 
-function checkAccess(event) {
+async function verifyAccessCode(inputCode) {
+  const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/verify_access_code`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      apikey: SUPABASE_ANON_KEY,
+      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+    },
+    body: JSON.stringify({
+      input_code: inputCode,
+      input_user_agent: navigator.userAgent,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error("access_check_failed");
+  }
+
+  return response.json();
+}
+
+function accessErrorMessage(reason) {
+  const messages = {
+    not_found: "访问码不存在，请确认后再输入。",
+    disabled: "这个访问码已停用，请联系工作人员。",
+    expired: "这个访问码已到期，请联系工作人员。",
+    usage_limit: "这个访问码已超过使用次数，请联系工作人员。",
+  };
+
+  return messages[reason] || "访问码验证失败，请稍后再试。";
+}
+
+async function checkAccess(event) {
   event.preventDefault();
   const inputCode = accessCode.value.trim().toUpperCase();
 
-  if (inputCode === ACCESS_CODE) {
+  if (!inputCode) {
+    accessError.textContent = "请输入访问码。";
+    return;
+  }
+
+  accessError.textContent = "正在验证访问码...";
+  accessForm.querySelector("button").disabled = true;
+
+  try {
+    const result = await verifyAccessCode(inputCode);
+
+    if (!result.ok) {
+      accessError.textContent = accessErrorMessage(result.reason);
+      accessCode.select();
+      return;
+    }
+
     unlockAccess();
     try {
       window.sessionStorage.setItem(ACCESS_STORAGE_KEY, "granted");
     } catch (error) {
       // Some local file previews block storage. Access still works for this visit.
     }
-    return;
+  } catch (error) {
+    accessError.textContent = "暂时无法验证访问码，请检查网络后再试。";
+  } finally {
+    accessForm.querySelector("button").disabled = false;
   }
-
-  accessError.textContent = "访问码不正确，请确认后再输入。";
-  accessCode.select();
 }
 
 function cardPath(cardIndex) {
