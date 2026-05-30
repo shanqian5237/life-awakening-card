@@ -82,7 +82,6 @@ const cardNumber = document.getElementById("cardNumber");
 const keywordTitle = document.getElementById("keywordTitle");
 const guidanceText = document.getElementById("guidanceText");
 const resetButton = document.getElementById("resetButton");
-const saveButton = document.getElementById("saveButton");
 
 let currentCard = null;
 
@@ -181,21 +180,19 @@ function resetDraw() {
   homeCard.src = CARD_BACK;
 }
 
-function saveTodayCard() {
-  if (!currentCard) return;
-
-  const link = document.createElement("a");
-  link.href = currentCard.imagePath;
-  link.download = `常青生命觉醒卡-第${String(currentCard.index).padStart(2, "0")}张.jpg`;
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-}
-
 drawButton.addEventListener("click", startDraw);
 resetButton.addEventListener("click", resetDraw);
-saveButton.addEventListener("click", saveTodayCard);
 accessForm.addEventListener("submit", checkAccess);
+document.addEventListener("contextmenu", (event) => {
+  if (event.target.closest(".card-stage, .result-card-wrap")) {
+    event.preventDefault();
+  }
+});
+document.addEventListener("dragstart", (event) => {
+  if (event.target.closest(".card-image, .result-card-image")) {
+    event.preventDefault();
+  }
+});
 
 if (hasAccess()) {
   unlockAccess();

@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   color-scheme: light;
   --leaf-900: #203b2b;
   --leaf-800: #2d523b;
@@ -151,6 +151,7 @@ h1 {
   display: grid;
   place-items: center;
   perspective: 900px;
+  position: relative;
 }
 
 .card-image,
@@ -162,7 +163,10 @@ h1 {
   box-shadow: var(--shadow);
   background: #ffffff;
   transform-origin: center;
+  -webkit-user-drag: none;
+  user-select: none;
 }
+
 
 .card-stage.is-shuffling .card-image {
   animation: shuffleFlip 1.5s cubic-bezier(0.2, 0.72, 0.24, 1) both;
@@ -290,14 +294,13 @@ button {
 
 .action-row {
   width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  display: flex;
+  justify-content: center;
   margin-top: auto;
 }
 
 .action-row button {
-  width: 100%;
+  width: min(100%, 240px);
   padding-inline: 14px;
   font-size: 16px;
 }
@@ -351,3 +354,4 @@ button {
     line-height: 1.72;
   }
 }
+
