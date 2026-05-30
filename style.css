@@ -1,0 +1,353 @@
+:root {
+  color-scheme: light;
+  --leaf-900: #203b2b;
+  --leaf-800: #2d523b;
+  --leaf-700: #3d6d4c;
+  --leaf-500: #6f9b73;
+  --leaf-200: #dfeee3;
+  --leaf-100: #eef7ef;
+  --mist: #f7fbf5;
+  --paper: rgba(255, 255, 255, 0.78);
+  --line: rgba(45, 82, 59, 0.16);
+  --shadow: 0 24px 70px rgba(31, 57, 42, 0.18);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", system-ui, sans-serif;
+  color: var(--leaf-900);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(223, 238, 227, 0.95), transparent 44%),
+    linear-gradient(180deg, #f4faf3 0%, #e7f2e8 48%, #f9fbf5 100%);
+}
+
+.app-shell {
+  width: min(100%, 520px);
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: max(22px, env(safe-area-inset-top)) 20px max(22px, env(safe-area-inset-bottom));
+  position: relative;
+  overflow: hidden;
+}
+
+.app-shell::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(61, 109, 76, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(61, 109, 76, 0.04) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 72%, transparent);
+}
+
+.screen {
+  min-height: calc(100vh - 44px);
+  min-height: calc(100dvh - 44px);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  position: relative;
+  z-index: 1;
+}
+
+.screen.is-active {
+  display: flex;
+}
+
+.access-panel {
+  width: 100%;
+  padding: 28px 22px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  box-shadow: var(--shadow);
+  text-align: center;
+  backdrop-filter: blur(18px);
+}
+
+.access-form {
+  margin-top: 22px;
+  display: grid;
+  gap: 12px;
+}
+
+.access-label {
+  text-align: left;
+  font-size: 14px;
+  color: var(--leaf-800);
+}
+
+.access-input {
+  width: 100%;
+  min-height: 52px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0 16px;
+  font: inherit;
+  font-size: 18px;
+  color: var(--leaf-900);
+  background: rgba(255, 255, 255, 0.78);
+  outline: none;
+}
+
+.access-input:focus {
+  border-color: rgba(61, 109, 76, 0.55);
+  box-shadow: 0 0 0 4px rgba(111, 155, 115, 0.16);
+}
+
+.access-error {
+  min-height: 22px;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #9a3e32;
+}
+
+.brand-block {
+  text-align: center;
+}
+
+.system-label,
+.result-kicker {
+  margin: 0 0 8px;
+  font-size: 13px;
+  letter-spacing: 0;
+  color: var(--leaf-700);
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(34px, 10vw, 48px);
+  line-height: 1.08;
+  font-weight: 650;
+}
+
+.subtitle {
+  margin: 12px auto 0;
+  max-width: 280px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--leaf-800);
+}
+
+.card-stage,
+.result-card-wrap {
+  width: min(72vw, 310px);
+  aspect-ratio: 7 / 12;
+  display: grid;
+  place-items: center;
+  perspective: 900px;
+}
+
+.card-image,
+.result-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  background: #ffffff;
+  transform-origin: center;
+}
+
+.card-stage.is-shuffling .card-image {
+  animation: shuffleFlip 1.5s cubic-bezier(0.2, 0.72, 0.24, 1) both;
+}
+
+@keyframes shuffleFlip {
+  0% {
+    transform: translateX(0) rotateY(0deg) rotateZ(0deg) scale(1);
+  }
+  22% {
+    transform: translateX(-18px) rotateY(48deg) rotateZ(-4deg) scale(1.02);
+  }
+  48% {
+    transform: translateX(18px) rotateY(145deg) rotateZ(4deg) scale(1.04);
+  }
+  74% {
+    transform: translateX(-8px) rotateY(245deg) rotateZ(-2deg) scale(1.02);
+  }
+  100% {
+    transform: translateX(0) rotateY(360deg) rotateZ(0deg) scale(1);
+  }
+}
+
+button {
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.primary-button,
+.secondary-button {
+  min-height: 52px;
+  border-radius: 999px;
+  padding: 0 30px;
+  font-size: 17px;
+  font-weight: 600;
+  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+.primary-button {
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--leaf-800), var(--leaf-500));
+  box-shadow: 0 14px 34px rgba(45, 82, 59, 0.24);
+}
+
+.secondary-button {
+  color: var(--leaf-800);
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--line);
+}
+
+.compact {
+  padding-inline: 24px;
+}
+
+.primary-button:active,
+.secondary-button:active {
+  transform: scale(0.98);
+}
+
+.primary-button:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
+.quiet-tip {
+  width: min(100%, 340px);
+  margin: 0;
+  color: rgba(32, 59, 43, 0.68);
+  font-size: 14px;
+  line-height: 1.8;
+  text-align: center;
+}
+
+.result-screen {
+  justify-content: flex-start;
+  padding-top: 12px;
+  gap: 16px;
+}
+
+.result-card-wrap {
+  width: min(66vw, 270px);
+  flex: 0 0 auto;
+}
+
+.result-card-image {
+  animation: resultIn 520ms ease both;
+}
+
+@keyframes resultIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.reading-panel {
+  width: 100%;
+  padding: 20px 20px 22px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 18px 44px rgba(31, 57, 42, 0.12);
+}
+
+.reading-panel h2 {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.25;
+  font-weight: 650;
+}
+
+.guidance {
+  margin: 14px 0 0;
+  font-size: 16px;
+  line-height: 1.9;
+  color: rgba(32, 59, 43, 0.82);
+}
+
+.action-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.action-row button {
+  width: 100%;
+  padding-inline: 14px;
+  font-size: 16px;
+}
+
+@media (min-width: 720px) {
+  .app-shell {
+    width: min(100%, 980px);
+  }
+
+  .result-screen {
+    display: none;
+  }
+
+  .result-screen.is-active {
+    display: grid;
+    grid-template-columns: 340px minmax(0, 430px);
+    align-content: center;
+    justify-content: center;
+    column-gap: 44px;
+  }
+
+  .result-card-wrap {
+    width: 340px;
+    grid-row: span 2;
+  }
+
+  .action-row {
+    margin-top: 0;
+  }
+}
+
+@media (max-height: 720px) {
+  .screen {
+    gap: 16px;
+  }
+
+  .card-stage {
+    width: min(58vw, 230px);
+  }
+
+  .result-card-wrap {
+    width: min(48vw, 210px);
+  }
+
+  .reading-panel {
+    padding: 16px;
+  }
+
+  .guidance {
+    font-size: 15px;
+    line-height: 1.72;
+  }
+}

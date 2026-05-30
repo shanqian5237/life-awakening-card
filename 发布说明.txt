@@ -1,0 +1,26 @@
+常青生命觉醒卡 · 在线抽卡系统 1.0
+
+这个文件夹是上线发布版，只包含网页需要的文件：
+- index.html
+- style.css
+- script.js
+- 牌样 文件夹
+
+推荐发布方式：
+
+方式一：Netlify Drop，最简单
+1. 打开 https://app.netlify.com/drop
+2. 把整个「常青生命觉醒卡-发布版」文件夹拖进去
+3. 等上传完成，会自动生成一个网址
+4. 把这个网址发给别人，对方点开就可以抽卡
+
+方式二：GitHub Pages
+1. 新建 GitHub 仓库
+2. 上传本文件夹里的全部内容
+3. 打开仓库 Settings → Pages
+4. Source 选择 Deploy from a branch
+5. Branch 选择 main，目录选择 /root
+6. 保存后等待 1-2 分钟，会生成访问网址
+
+注意：
+不要只上传 index.html，必须同时上传 style.css、script.js 和「牌样」文件夹。
