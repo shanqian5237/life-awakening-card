@@ -93,7 +93,7 @@ function unlockAccess() {
 
 function hasAccess() {
   try {
-    return window.localStorage.getItem(ACCESS_STORAGE_KEY) === "granted";
+    return window.sessionStorage.getItem(ACCESS_STORAGE_KEY) === "granted";
   } catch (error) {
     return false;
   }
@@ -106,7 +106,7 @@ function checkAccess(event) {
   if (inputCode === ACCESS_CODE) {
     unlockAccess();
     try {
-      window.localStorage.setItem(ACCESS_STORAGE_KEY, "granted");
+      window.sessionStorage.setItem(ACCESS_STORAGE_KEY, "granted");
     } catch (error) {
       // Some local file previews block storage. Access still works for this visit.
     }

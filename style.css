@@ -1,4 +1,4 @@
-﻿:root {
+:root {
   color-scheme: light;
   --leaf-900: #203b2b;
   --leaf-800: #2d523b;
@@ -167,6 +167,24 @@ h1 {
   user-select: none;
 }
 
+.copyright-watermark {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  padding: 8px 12px;
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.88);
+  background: rgba(32, 59, 43, 0.28);
+  font-size: 11px;
+  line-height: 1;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.38);
+  transform: translateY(-50%) rotate(90deg);
+  transform-origin: right center;
+  pointer-events: none;
+  backdrop-filter: blur(8px);
+  white-space: nowrap;
+}
 
 .card-stage.is-shuffling .card-image {
   animation: shuffleFlip 1.5s cubic-bezier(0.2, 0.72, 0.24, 1) both;
@@ -354,4 +372,3 @@ button {
     line-height: 1.72;
   }
 }
-
